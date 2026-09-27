@@ -1,0 +1,1070 @@
+/* ==========================================================
+   ROMANTIC LOVE LETTER STYLESHEET FOR MAYA
+   Designed for PC & Mobile (Android/iOS)
+   ========================================================== */
+
+:root {
+  --primary-pink: #ff5e8e;
+  --secondary-pink: #ff85a2;
+  --blush-light: #fff0f5;
+  --blush-dark: #ffe4ec;
+  --accent-rose: #ff2a6d;
+  --accent-purple: #c05cff;
+  --gold-heart: #ffd166;
+  --dark-text: #2c2533;
+  --sub-text: #665b6d;
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --glass-shadow: 0 20px 45px rgba(255, 77, 128, 0.18), 0 8px 18px rgba(0, 0, 0, 0.05);
+  --card-radius: 28px;
+  --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-handwriting: 'Caveat', cursive;
+  --font-script: 'Sacramento', cursive;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+body {
+  font-family: var(--font-main);
+  background: linear-gradient(135deg, #ffeef4 0%, #ffd9e8 35%, #ffb8d2 70%, #f9c2d7 100%);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  color: var(--dark-text);
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==========================================================
+   AMBIENT FLOATING HEARTS BACKGROUND
+   ========================================================== */
+.heart-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -40px;
+  font-size: 20px;
+  animation: floatUp 8s linear infinite;
+  opacity: 0.6;
+  filter: drop-shadow(0 2px 8px rgba(255, 105, 180, 0.4));
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(0.7);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  85% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-110vh) rotate(360deg) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================
+   MUSIC TOGGLE BUTTON
+   ========================================================== */
+.music-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 20px rgba(255, 94, 142, 0.35);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-pink);
+  font-size: 1.1rem;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.music-toggle:hover {
+  transform: scale(1.1) rotate(10deg);
+  background: #ffffff;
+}
+
+.music-toggle.playing {
+  color: var(--accent-rose);
+  box-shadow: 0 0 25px rgba(255, 42, 109, 0.5);
+  animation: musicPulse 2s infinite ease-in-out;
+}
+
+.music-waves {
+  position: absolute;
+  bottom: 6px;
+  display: flex;
+  gap: 2px;
+  height: 6px;
+  align-items: flex-end;
+}
+
+.music-waves span {
+  width: 2.5px;
+  height: 100%;
+  background-color: var(--primary-pink);
+  border-radius: 2px;
+  display: none;
+}
+
+.music-toggle.playing .music-waves span {
+  display: block;
+  animation: wave 1s ease-in-out infinite alternate;
+}
+
+.music-toggle.playing .music-waves span:nth-child(1) { animation-delay: 0.1s; height: 4px; }
+.music-toggle.playing .music-waves span:nth-child(2) { animation-delay: 0.3s; height: 7px; }
+.music-toggle.playing .music-waves span:nth-child(3) { animation-delay: 0.2s; height: 5px; }
+
+@keyframes wave {
+  0% { transform: scaleY(0.4); }
+  100% { transform: scaleY(1.3); }
+}
+
+@keyframes musicPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* ==========================================================
+   APP VIEWPORT & SCREEN SYSTEM
+   ========================================================== */
+.app-viewport {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 520px;
+  min-height: 100vh;
+  padding: 24px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  opacity: 0;
+  transform: scale(0.96) translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.screen.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* ==========================================================
+   SHARED GLASS PANEL STYLING
+   ========================================================== */
+.glass-panel {
+  width: 100%;
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid var(--glass-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--glass-shadow);
+  padding: 36px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient Top Accent line on cards */
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ff85a2, #ff2a6d, #c05cff, transparent);
+  border-radius: 3px;
+}
+
+/* ==========================================================
+   SCREEN 1: LOADING SCREEN (4s DURATION)
+   ========================================================== */
+.heart-pulse-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.heart-glow {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle, rgba(255, 94, 142, 0.55) 0%, rgba(255, 94, 142, 0) 70%);
+  border-radius: 50%;
+  animation: glowPulse 2s infinite ease-in-out;
+}
+
+.pulsing-heart {
+  font-size: 4rem;
+  z-index: 2;
+  animation: heartbeat 1.2s infinite ease-in-out;
+  display: inline-block;
+  transform-origin: center;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.22); }
+  28% { transform: scale(1.05); }
+  42% { transform: scale(1.28); }
+  70% { transform: scale(1); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { transform: scale(0.9); opacity: 0.5; }
+  50% { transform: scale(1.3); opacity: 0.9; }
+}
+
+.loading-title {
+  font-family: var(--font-handwriting);
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: #ff2a6d;
+  line-height: 1.25;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 10px rgba(255, 42, 109, 0.2);
+}
+
+.loading-subtitle {
+  font-size: 0.95rem;
+  color: var(--sub-text);
+  margin-bottom: 28px;
+  font-weight: 400;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 142, 172, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff85a2, #ff2a6d, #c05cff);
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 42, 109, 0.6);
+  /* The 4s transition will be triggered dynamically via JS */
+  transition: width 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.sparkles-decor {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  font-size: 1.3rem;
+  opacity: 0.85;
+  animation: sparkleBounce 2s infinite ease-in-out alternate;
+}
+
+@keyframes sparkleBounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-6px); }
+}
+
+/* ==========================================================
+   SCREEN 2: PASSCODE / PIN SCREEN
+   ========================================================== */
+.lock-icon-wrapper {
+  margin-bottom: 16px;
+}
+
+.lock-circle {
+  width: 68px;
+  height: 68px;
+  background: linear-gradient(135deg, #ffeef4, #ffd4e5);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+  box-shadow: 0 8px 22px rgba(255, 94, 142, 0.25);
+  color: var(--accent-rose);
+  font-size: 1.6rem;
+  transition: transform 0.3s ease;
+}
+
+.lock-circle.unlocked {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  color: #16a34a;
+  transform: scale(1.1);
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dark-text);
+  margin-bottom: 6px;
+}
+
+.pin-instruction {
+  font-size: 0.9rem;
+  color: var(--sub-text);
+  margin-bottom: 22px;
+}
+
+.pin-dots-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.pin-dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid var(--secondary-pink);
+  background-color: transparent;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pin-dot.filled {
+  background: linear-gradient(135deg, #ff2a6d, #ff5e8e);
+  border-color: #ff2a6d;
+  transform: scale(1.15);
+  box-shadow: 0 0 10px rgba(255, 42, 109, 0.5);
+}
+
+.pin-message {
+  min-height: 24px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-bottom: 14px;
+  color: var(--accent-rose);
+  transition: opacity 0.3s;
+}
+
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 290px;
+  margin: 0 auto 16px;
+}
+
+.key-btn {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 5px 15px rgba(255, 94, 142, 0.15);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--dark-text);
+  font-family: var(--font-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.key-btn:active {
+  transform: scale(0.9);
+  background: linear-gradient(135deg, #ffe0eb, #ffc4da);
+}
+
+.key-hint {
+  font-size: 1.25rem;
+  color: #f59e0b;
+}
+
+.key-delete {
+  font-size: 1.25rem;
+  color: #ef4444;
+}
+
+.pin-hint-text {
+  font-size: 0.85rem;
+  color: #78716c;
+  background: rgba(255, 247, 237, 0.85);
+  padding: 8px 14px;
+  border-radius: 12px;
+  display: inline-block;
+  border: 1px dashed rgba(245, 158, 11, 0.4);
+}
+
+/* Shake Animation for Wrong PIN */
+.shake {
+  animation: shakeEffect 0.5s ease-in-out;
+}
+
+@keyframes shakeEffect {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-12px); }
+  40%, 80% { transform: translateX(12px); }
+}
+
+/* ==========================================================
+   SCREEN 3: NARRATIVE / LOVE LETTER SCREEN
+   ========================================================== */
+.letter-card {
+  text-align: left;
+  position: relative;
+  padding: 40px 32px 34px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.letter-stamp {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 230, 240, 0.8);
+  border: 1.5px dashed var(--secondary-pink);
+  border-radius: 10px;
+  padding: 6px 12px;
+}
+
+.letter-stamp span {
+  font-size: 1.4rem;
+}
+
+.letter-stamp small {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-rose);
+  letter-spacing: 0.5px;
+}
+
+.letter-header {
+  margin-bottom: 22px;
+}
+
+.letter-greeting {
+  font-family: var(--font-handwriting);
+  font-size: 2.7rem;
+  font-weight: 700;
+  color: #d81b60;
+  line-height: 1;
+}
+
+.letter-date {
+  font-size: 0.8rem;
+  color: #a89ba8;
+  font-weight: 500;
+}
+
+.letter-body {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: #3f3644;
+  margin-bottom: 30px;
+  border-left: 3px solid #ff85a2;
+  padding-left: 18px;
+}
+
+.letter-paragraph {
+  margin-bottom: 16px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.highlight-paragraph {
+  color: #c2185b;
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+.letter-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px dashed rgba(255, 133, 162, 0.4);
+  padding-top: 20px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.cute-signature {
+  font-family: var(--font-handwriting);
+  font-size: 1.3rem;
+  color: var(--sub-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sig-heart {
+  animation: pulse 1.5s infinite;
+  display: inline-block;
+}
+
+/* ==========================================================
+   SHARED BUTTONS
+   ========================================================== */
+.btn-primary {
+  background: linear-gradient(135deg, #ff2a6d 0%, #ff659c 100%);
+  color: #ffffff;
+  border: none;
+  padding: 13px 26px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-main);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 10px 22px rgba(255, 42, 109, 0.35);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 14px 28px rgba(255, 42, 109, 0.45);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+.glow-btn {
+  animation: glowPulseBtn 2.2s infinite alternate;
+}
+
+@keyframes glowPulseBtn {
+  0% { box-shadow: 0 8px 20px rgba(255, 42, 109, 0.3); }
+  100% { box-shadow: 0 12px 30px rgba(255, 42, 109, 0.6); }
+}
+
+/* ==========================================================
+   SCREEN 4: QUESTION PAGE (YES & DODGING NO BUTTON)
+   ========================================================== */
+.question-container {
+  padding: 40px 26px 44px;
+  position: relative;
+  min-height: 490px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.bear-sticker-container {
+  margin-bottom: 18px;
+}
+
+.cute-avatar-bounce {
+  font-size: 3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  animation: floatAvatar 2.5s ease-in-out infinite alternate;
+}
+
+.avatar-heart {
+  font-size: 2.2rem;
+  animation: heartbeat 1.2s infinite ease-in-out;
+}
+
+@keyframes floatAvatar {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+.question-title {
+  font-family: var(--font-handwriting);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #ff1e66;
+  margin-bottom: 8px;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(255, 30, 102, 0.2);
+}
+
+.question-subtitle {
+  font-size: 0.92rem;
+  color: var(--sub-text);
+  margin-bottom: 14px;
+}
+
+.playful-message {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #c2185b;
+  min-height: 28px;
+  margin-bottom: 24px;
+  padding: 4px 14px;
+  background: rgba(255, 230, 240, 0.65);
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* The Area where buttons reside */
+.choice-buttons-area {
+  width: 100%;
+  height: 110px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.btn-yes {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
+  min-width: 135px;
+  height: 56px;
+  border-radius: 50px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-family: var(--font-main);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 10;
+}
+
+.btn-yes:hover {
+  transform: scale(1.08);
+  box-shadow: 0 14px 30px rgba(16, 185, 129, 0.55);
+}
+
+.pulse-animate {
+  animation: pulseBig 1.8s infinite;
+}
+
+@keyframes pulseBig {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  70% { transform: scale(1.06); box-shadow: 0 0 0 16px rgba(16, 185, 129, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.btn-no {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  border: none;
+  min-width: 120px;
+  height: 52px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: var(--font-main);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), left 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 15;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.btn-no:active {
+  transform: scale(0.9);
+}
+
+/* When the No button starts dodging, it gets absolute positioning */
+.btn-no.dodging {
+  position: absolute;
+  box-shadow: 0 10px 25px rgba(239, 68, 68, 0.45);
+}
+
+.question-decor-bottom {
+  margin-top: 10px;
+  color: #9c8a9e;
+  font-size: 0.82rem;
+}
+
+/* ==========================================================
+   SCREEN 5: CELEBRATION & USER MESSAGE PAGE
+   ========================================================== */
+.celebration-card {
+  padding: 38px 28px;
+}
+
+.celebration-header {
+  margin-bottom: 24px;
+}
+
+.party-emoji-burst {
+  font-size: 3.2rem;
+  margin-bottom: 12px;
+  animation: burst 1.5s infinite alternate;
+}
+
+@keyframes burst {
+  0% { transform: scale(0.95) rotate(-3deg); }
+  100% { transform: scale(1.1) rotate(3deg); }
+}
+
+.celebration-title {
+  font-family: var(--font-handwriting);
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: #ff1e66;
+  line-height: 1;
+  margin-bottom: 12px;
+  text-shadow: 0 4px 15px rgba(255, 30, 102, 0.25);
+}
+
+.celebration-declaration {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #4a3e52;
+  font-weight: 500;
+  background: rgba(255, 235, 242, 0.7);
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 182, 206, 0.5);
+}
+
+.message-input-section {
+  text-align: left;
+  margin-top: 24px;
+}
+
+.input-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6a536e;
+  margin-bottom: 10px;
+}
+
+.textarea-wrapper {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+textarea#maya-message {
+  width: 100%;
+  border-radius: 18px;
+  border: 1.5px solid rgba(255, 133, 162, 0.45);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 14px 16px;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  color: var(--dark-text);
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 110px;
+  outline: none;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s ease;
+}
+
+textarea#maya-message:focus {
+  border-color: var(--accent-rose);
+  box-shadow: 0 0 0 3px rgba(255, 42, 109, 0.2);
+  background: #ffffff;
+}
+
+.char-counter {
+  position: absolute;
+  bottom: 10px;
+  right: 14px;
+  font-size: 0.75rem;
+  color: #a89ba8;
+}
+
+.btn-send {
+  width: 100%;
+  height: 52px;
+  font-size: 1.1rem;
+}
+
+/* ==========================================================
+   CUSTOM MODAL ALERT (SCREENSHOT READY)
+   ========================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(44, 37, 51, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  padding: 20px;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 34px 26px 28px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  text-align: center;
+}
+
+.modal-overlay.active .modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.modal-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff2a6d, #ff85a2);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.modal-icon-ring {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  animation: pulse 1.8s infinite;
+}
+
+.modal-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--dark-text);
+  margin-bottom: 16px;
+}
+
+.modal-message-box {
+  background: linear-gradient(135deg, #fff2f6, #ffe6ee);
+  border-radius: 18px;
+  padding: 20px 22px;
+  position: relative;
+  border: 1.5px dashed #ff9bb7;
+  margin-bottom: 20px;
+}
+
+.quote-mark {
+  font-family: var(--font-handwriting);
+  font-size: 2.2rem;
+  color: #ff659c;
+  line-height: 0.5;
+}
+
+.quote-mark.end {
+  text-align: right;
+  margin-top: 6px;
+}
+
+.modal-user-content {
+  font-size: 1.05rem;
+  color: #3b2d42;
+  font-weight: 500;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding: 8px 4px;
+}
+
+.screenshot-reminder-box {
+  background: rgba(254, 243, 199, 0.95);
+  border: 1.5px solid #fcd34d;
+  border-radius: 16px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #92400e;
+  font-size: 0.92rem;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+}
+
+.screenshot-reminder-box i {
+  font-size: 1.3rem;
+  color: #d97706;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-whatsapp {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+  transition: all 0.2s ease;
+}
+
+.btn-whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(37, 211, 102, 0.45);
+}
+
+.btn-close-modal {
+  background: #f3f4f6;
+  color: #4b5563;
+  border: none;
+  padding: 12px;
+  border-radius: 50px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-close-modal:hover {
+  background: #e5e7eb;
+}
+
+/* ==========================================================
+   MOBILE & RESPONSIVE ADJUSTMENTS
+   ========================================================== */
+@media (max-width: 480px) {
+  .app-viewport {
+    padding: 16px 12px;
+  }
+
+  .glass-panel {
+    padding: 28px 18px;
+    border-radius: 22px;
+  }
+
+  .loading-title {
+    font-size: 1.95rem;
+  }
+
+  .letter-card {
+    padding: 30px 20px 24px;
+  }
+
+  .letter-greeting {
+    font-size: 2.3rem;
+  }
+
+  .letter-body {
+    font-size: 0.95rem;
+    line-height: 1.68;
+    padding-left: 14px;
+  }
+
+  .keypad-grid {
+    gap: 10px;
+    max-width: 260px;
+  }
+
+  .key-btn {
+    width: 64px;
+    height: 64px;
+    font-size: 1.45rem;
+  }
+
+  .question-container {
+    padding: 32px 18px 36px;
+    min-height: 440px;
+  }
+
+  .question-title {
+    font-size: 2.2rem;
+  }
+
+  .celebration-title {
+    font-size: 2.7rem;
+  }
+
+  .choice-buttons-area {
+    gap: 16px;
+  }
+
+  .btn-yes {
+    min-width: 120px;
+    height: 52px;
+    font-size: 1.15rem;
+  }
+
+  .btn-no {
+    min-width: 105px;
+    height: 48px;
+    font-size: 1rem;
+  }
+}

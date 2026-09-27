@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Special for U ❤️</title>
+
+  <!-- Favicon -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=Sacramento&display=swap"
+    rel="stylesheet">
+
+  <!-- FontAwesome for cute icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Ambient Floating Hearts Background -->
+  <div id="heart-bg-container" class="heart-bg"></div>
+
+  <!-- Music Toggle Floating Button -->
+  <button id="music-toggle-btn" class="music-toggle" aria-label="Toggle Background Music" title="Putar Musik 🎵">
+    <i class="fa-solid fa-music"></i>
+    <span class="music-waves">
+      <span></span><span></span><span></span>
+    </span>
+  </button>
+
+  <!-- Background Music Audio (Best Friend - Rex Orange County) -->
+  <audio id="bg-audio" loop preload="auto">
+    <source src="best-friend.mp3" type="audio/mpeg">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Main Container -->
+  <main class="app-viewport">
+
+    <!-- ============================================== -->
+    <!-- SCREEN 1: LANDING / LOADING PAGE (4 SECONDS)    -->
+    <!-- ============================================== -->
+    <section id="screen-loading" class="screen active">
+      <div class="loading-card glass-panel">
+        <div class="heart-pulse-wrapper">
+          <div class="heart-glow"></div>
+          <div class="pulsing-heart">❤️</div>
+        </div>
+
+        <h1 class="loading-title">I made this website for u</h1>
+        <p class="loading-subtitle">Menyiapkan sesuatu yang spesial untukmu...</p>
+
+        <!-- Progress Bar Indicator (4 seconds animation) -->
+        <div class="progress-bar-container">
+          <div id="loading-progress" class="progress-bar-fill"></div>
+        </div>
+
+        <div class="sparkles-decor">
+          <span>✨</span>
+          <span>🌸</span>
+          <span>✨</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SCREEN 2: PASSCODE / PIN PAGE (12012009)        -->
+    <!-- ============================================== -->
+    <section id="screen-pin" class="screen">
+      <div class="pin-card glass-panel">
+        <div class="lock-icon-wrapper">
+          <div class="lock-circle">
+            <i class="fa-solid fa-lock" id="lock-icon"></i>
+          </div>
+        </div>
+
+        <h2 class="section-title">Masukkan PIN Rahasia 🔐</h2>
+        <p class="pin-instruction">Hanya kamu yang boleh membuka rahasia ini</p>
+
+        <!-- PIN Dots (8 digits for 12012009) -->
+        <div class="pin-dots-container" id="pin-dots">
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+        </div>
+
+        <div id="pin-message" class="pin-message"></div>
+
+        <!-- Touch/Click Keypad -->
+        <div class="keypad-grid">
+          <button class="key-btn" data-key="1">1</button>
+          <button class="key-btn" data-key="2">2</button>
+          <button class="key-btn" data-key="3">3</button>
+          <button class="key-btn" data-key="4">4</button>
+          <button class="key-btn" data-key="5">5</button>
+          <button class="key-btn" data-key="6">6</button>
+          <button class="key-btn" data-key="7">7</button>
+          <button class="key-btn" data-key="8">8</button>
+          <button class="key-btn" data-key="9">9</button>
+          <button class="key-btn key-hint" id="hint-btn" title="Petunjuk PIN">
+            <i class="fa-regular fa-lightbulb"></i>
+          </button>
+          <button class="key-btn" data-key="0">0</button>
+          <button class="key-btn key-delete" id="delete-btn" title="Hapus">
+            <i class="fa-solid fa-delete-left"></i>
+          </button>
+        </div>
+
+        <p class="pin-hint-text" id="hint-display">
+          💡 Petunjuk: <em>Tanggal spesial kamu</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SCREEN 3: NARRATIVE / LOVE LETTER PAGE          -->
+    <!-- ============================================== -->
+    <section id="screen-letter" class="screen">
+      <div class="letter-card glass-panel">
+        <div class="letter-stamp">
+          <span>💌</span>
+          <small>For You</small>
+        </div>
+
+        <div class="letter-header">
+          <h2 class="letter-greeting">Hai kamu,</h2>
+          <span class="letter-date" id="letter-current-date">Today & Always</span>
+        </div>
+
+        <div class="letter-body">
+          <p class="letter-paragraph">
+            Aku cuman mau jujur sedikit. akhir akhir ini aku sadar kalau aku nyaman banget sama kamu. semenjak kamu
+            hadir hidup aku jadi gak kesepian, yang tadinya aku gak punya temen untuk bercerita jadi punya, yang tadinya
+            gak ada tempat buat curhat jadi ada dehh dan jujur aja saat aku bercerita atau curhat sama kamuu perasaan
+            akuu jadi lebih tenang.
+          </p>
+          <p class="letter-paragraph highlight-paragraph">
+            makasihh yaa kamu selalu ada buat akuu. ohh iyaa ada yang mau aku omongin...
+          </p>
+        </div>
+
+        <div class="letter-footer">
+          <div class="cute-signature">
+            <span>Sincerely from my heart</span>
+            <span class="sig-heart">💗</span>
+          </div>
+
+          <button id="letter-next-btn" class="btn-primary glow-btn">
+            <span>Lanjut</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SCREEN 4: THE QUESTION PAGE (YES / DODGING NO)  -->
+    <!-- ============================================== -->
+    <section id="screen-question" class="screen">
+      <div class="question-container glass-panel" id="question-card">
+
+        <div class="bear-sticker-container">
+          <!-- Cute animated SVG couple heart stickers -->
+          <div class="cute-avatar-bounce">
+            <span class="avatar-emoji">🧸</span>
+            <span class="avatar-heart">💖</span>
+            <span class="avatar-emoji">🎀</span>
+          </div>
+        </div>
+
+        <h1 class="question-title">Will you be my girlfriend?</h1>
+        <p class="question-subtitle">Jangan buru-buru, dengarkan kata hatimu yaa ✨</p>
+
+        <!-- Dynamic interactive quote when user chases 'No' -->
+        <div id="playful-message" class="playful-message">
+          Pilih salah satu yaa 🙈
+        </div>
+
+        <div class="choice-buttons-area" id="buttons-area">
+          <button id="yes-btn" class="btn-yes pulse-animate">
+            <span class="btn-icon">🥰</span>
+            <span class="btn-text">YES!</span>
+          </button>
+
+          <button id="no-btn" class="btn-no">
+            <span class="btn-icon">🥺</span>
+            <span class="btn-text">NO</span>
+          </button>
+        </div>
+
+        <div class="question-decor-bottom">
+          <small>Psst: Tombol merahnya agak jahil hihi 😜</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SCREEN 5: CELEBRATION & USER MESSAGE PAGE       -->
+    <!-- ============================================== -->
+    <section id="screen-celebration" class="screen">
+      <div class="celebration-card glass-panel">
+
+        <div class="celebration-header">
+          <div class="party-emoji-burst">🎉🥳💖</div>
+          <h1 class="celebration-title">yeayy!!</h1>
+          <p class="celebration-declaration">
+            you just made me the happiest person alive. thank you for choosing me. i promise i'll take care of your
+            heart!
+          </p>
+        </div>
+
+        <div class="message-input-section">
+          <label for="maya-message" class="input-label">
+            <i class="fa-regular fa-comment-dots"></i>
+            Ada yang mau kamu sampaikan ke aku?
+          </label>
+
+          <div class="textarea-wrapper">
+            <textarea id="maya-message" rows="4"
+              placeholder="Tulis apa aja yang ada di hatimu buat aku di sini yaa... 🥰" maxlength="1000"></textarea>
+            <div class="char-counter"><span id="char-count">0</span>/1000</div>
+          </div>
+
+          <button id="send-btn" class="btn-primary btn-send glow-btn">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Kirim Pesan</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================== -->
+  <!-- SWEET CUSTOM MODAL ALERT (SCREENSHOT READY)     -->
+  <!-- ============================================== -->
+  <div id="custom-alert-modal" class="modal-overlay">
+    <div class="modal-card glass-panel screenshot-target" id="modal-card-content">
+      <div class="modal-badge">
+        <span>💌 PESAN UNTUKMU</span>
+      </div>
+
+      <div class="modal-icon-ring">
+        <i class="fa-solid fa-envelope-open-heart"></i>
+        <span>💝</span>
+      </div>
+
+      <h3 class="modal-title">Pesan Berhasil Disimpan!</h3>
+
+      <div class="modal-message-box">
+        <div class="quote-mark">“</div>
+        <p id="modal-user-text" class="modal-user-content">Pesan kamu akan muncul di sini...</p>
+        <div class="quote-mark end">”</div>
+      </div>
+
+      <div class="screenshot-reminder-box">
+        <i class="fa-solid fa-camera-retro"></i>
+        <p class="screenshot-text">
+          <strong>jangan lupa kirim screenshot nya ke aku yaa</strong> 📸✨
+        </p>
+      </div>
+
+      <div class="modal-actions">
+        <button id="share-wa-btn" class="btn-whatsapp">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>Kirim Balasan ke WA</span>
+        </button>
+
+        <button id="close-modal-btn" class="btn-close-modal">
+          <span>Tutup & Lihat Lagi</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
